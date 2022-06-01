@@ -10,8 +10,8 @@ import { TweetsComponent } from './tweets/tweets.component';
 import { HomeComponent } from './home/home.component';
 import { LogoutComponent } from './logout/logout.component';
 import { AuthModule } from "@auth0/auth0-angular";
-import { TestAuthComponent } from './test-auth/test-auth.component';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { AuthHttpInterceptor } from "@auth0/auth0-angular";
 
 @NgModule({
   declarations: [
@@ -21,19 +21,44 @@ import { HttpClientModule } from "@angular/common/http";
     ProfileComponent,
     TweetsComponent,
     HomeComponent,
-    LogoutComponent,
-    TestAuthComponent
+    LogoutComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AuthModule.forRoot({
+      // The domain and clientId were configured in the previous chapter
       domain: 'dev-f32d4z1k.us.auth0.com',
-      clientId: 'DLTTSJAXkWWN3qhLWcXWXCQhDUeBCTDc'
+      clientId: 'DLTTSJAXkWWN3qhLWcXWXCQhDUeBCTDc',
+
+      // Request this audience at user authentication time
+      audience: 'https://dev-f32d4z1k.us.auth0.com/api/v2/',
+
+      // Request this scope at user authentication time
+      scope: 'read:current_user',
+
+      // Specify configuration for the interceptor
+      httpInterceptor: {
+        allowedList: [
+          {
+            // Match any request that starts 'https://dev-f32d4z1k.us.auth0.com/api/v2/' (note the asterisk)
+            uri: 'https://dev-f32d4z1k.us.auth0.com/api/v2/*',
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: 'https://dev-f32d4z1k.us.auth0.com/api/v2/',
+
+              // The attached token should have these scopes
+              scope: 'read:current_user'
+            }
+          }
+        ]
+      }
     }),
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

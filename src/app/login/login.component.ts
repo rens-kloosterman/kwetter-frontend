@@ -3,7 +3,7 @@ import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-login',
-  template: '<button (click)="auth.loginWithRedirect()">Log in</button>',
+  templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
@@ -11,6 +11,10 @@ export class LoginComponent implements OnInit {
   constructor(public auth: AuthService) { }
 
   ngOnInit(): void {
+  }
+
+  login(): void {
+    this.auth.loginWithRedirect()
   }
 
 }
