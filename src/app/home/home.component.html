@@ -6,7 +6,7 @@
         <img src="../../assets/svg/home_active.svg" class="sidebar-menu__icon">
         Home
       </div>
-      <div class="sidebar-menu__item" (click)="this.route.navigate(['/profile'])">
+      <div class="sidebar-menu__item" (click)="this.route.navigate(['/' + this.authUser?.nickname])">
         <img src="./assets/svg/profile.svg" class="sidebar-menu__icon">
         Profile
       </div>
@@ -15,8 +15,9 @@
 
 
   <div class="layout__main">
-
-    <app-tweets></app-tweets>
+    <div *ngIf="profile?.followingUserIds">
+      <app-tweets [profile]="profile"></app-tweets>
+    </div>
   </div>
 
 
@@ -25,11 +26,20 @@
       <ng-container *ngIf="auth.isAuthenticated$">
         <button (click)="route.navigate(['/logout'])">Logout</button>
       </ng-container>
-
-      <ul *ngIf="auth.user$ | async as user">
-        <li>{{ user.name }}</li>
-        <li>{{ user.email }}</li>
-      </ul>
     </div>
+
+
+      <div class="post-tweet">
+        <img class="post-tweet__author-logo" [src]=this.authUser?.picture>
+        <div class="post-tweet__content">
+          <input type="text" id="tweetText" name="tweetText" [(ngModel)]="tweetText"> <!--placeholder="What's happening?" class="post-tweet__input-tweet">-->
+        </div>
+        <div class="post-tweet__submit">
+          <button (click)="postTweet()" class="post-tweet__submit-button">Tweet</button>
+        </div>
+        <div>
+          {{authUser?.sub}}
+        </div>
+      </div>
   </div>
 </div>

@@ -4,13 +4,19 @@ import {HomeComponent} from "./home/home.component";
 import {LoginComponent} from "./login/login.component";
 import {LogoutComponent} from "./logout/logout.component";
 import {ProfileComponent} from "./profile/profile.component";
+import { NotfoundComponent } from "./notfound/notfound.component";
+
+import { AuthGuard } from '@auth0/auth0-angular';
+import {ErrorComponent} from "./error/error.component";
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full'},
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'pagenotfound', component: NotfoundComponent },
+  { path: 'error', component: ErrorComponent },
+  { path: ':profilename', component: ProfileComponent }
 ];
 
 @NgModule({
