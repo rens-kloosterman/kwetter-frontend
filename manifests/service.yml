@@ -10,6 +10,6 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
-      name: https
+      name: http
     selector:
         app: "kwetterkubernetes-9a33"
