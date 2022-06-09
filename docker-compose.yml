@@ -1,0 +1,7 @@
+version: '3'
+services:
+  kwetter:
+    image: ghcr.io/rens-kloosterman/kwetter-frontend:main
+    build: .
+    ports:
+      - "8000:80"
