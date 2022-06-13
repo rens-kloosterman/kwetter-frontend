@@ -17,7 +17,27 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { ErrorComponent } from './error/error.component';
 import {NgxWebstorageModule} from "ngx-webstorage";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD9Fgz7fsyitlbhYu_iXQbVTRVKkmWj4X0",
+  authDomain: "kwetter-c2f13.firebaseapp.com",
+  projectId: "kwetter-c2f13",
+  storageBucket: "kwetter-c2f13.appspot.com",
+  messagingSenderId: "45737647281",
+  appId: "1:45737647281:web:925773434749a1b0b8d690",
+  measurementId: "G-HNLXCEJFTN"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 @NgModule({
   declarations: [
